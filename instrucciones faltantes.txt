@@ -1,0 +1,412 @@
+﻿
+Salve todos los cambios, baje la aplicación y vuelva a correr nodemon app desde el terminal. Pruebe
+desde el navegador.
+
+Opción Generic
+
+Opción elements
+
+ El sitio funciona pero que pasa si deja e correr nodemon:
+
+
+
+Da error. Esto debe ser solucionado. Desplegando la aplicación en un server.
+
+9. Preparar el WebServer para subirlo a un Hosting
+El primer problema a solucionar es el puerto, estamos usando el 8080, pero no existe ninguna 
+seguridad que sea el puerto cuando se despliegue en un hosting.
+Debemos crear una variable de entorno del puerto, para esto instalar un paquete : npm i dotenv 
+que sirve para establecer mis variables de entorno:
+
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> npm i dotenv
+added 1 package, and audited 68 packages in 612ms
+una vez instalado crear un archivo de variables de entorno llamado:  .env en la raíz 
+
+En el app.js se carga las variables de entorno con la sentencia: require(‘dotenv’).config();
+const express = require('express')
+const hbs = require('hbs');
+require('dotenv').config();
+const app = express()
+const port = process.env.PORT;
+………………………………………..
+
+
+
+Salve todo, corra node app.js desde el terminal.
+
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> node app.js
+Example app listenining al http://localhost:8081
+Nos dice que la aplicación esta corriendo en el puerto 8081. Correr desde el navegador se debe 
+poner 8081
+
+Lo segundo ha realizar para preparar muestra aplicación es ir al package.json y preparar un script. 
+Llamado start que es el espera node para lanzar la aplicación
+
+{
+  "name": "06-webserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "hbs": "^4.2.0"
+  }
+}
+
+Salve los cambios. Probemos: desde el terminal corra npm start
+
+Ahora corra desde el navegador:
+
+
+
+Todo corre ok
+Estos son los dos pasos necesarios para desplegar una aplicación en los hosting.
+Si desplegamos en GitHub se debe crear un archivo donde se le indique los archivos a ignorar. Este 
+archivo se llama: .gitignor
+
+Salve, prepare el repositorio git desde el terminal corra: git init
+
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> git init
+Initialized empty Git repository in D:/udemy/Node de 0 a esperto/Node/06-webserver/.git/
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver>
+
+Desde el terminal corra: git add .
+Tome la primera fotografía : git commit -m "Webserver Listo"
+
+10. Desplegar Aplicación en Railway.app
+Es el momento de desplegar nuestra aplicación en la nube para que cualquier cibernauta lo pueda 
+ver, hay muchas formas para desplegar, usar Docker para crear imágenes, se puede subir 
+directamente la aplicación Node, en la nube existen muchos servicios para desplegar aplicaciones, 
+se puede usar un servidor local etc.
+Para la parte Web nosotros usaremos un servicio que pueda procesar las peticiones, pues tenemos 
+cierto poder de procesamiento en el backend, los más grandes y populares servicios piden pagos por
+tarjeta, por tanto usaremos Railway pues tiene un trial  gratuito es bastante bueno y se puede usar 
+para desarrollo y producción.
+
+Primero subiremos muestra aplicación a GitHub para control de versiones. Segundo abriremos la 
+pagina de Railway crearemos una cuenta y desplegaremos muestra aplicación en la nube.
+
+Abra la aplicación y actualice el archivo .gitignor
+
+
+
+Ingrese al GitHub (ya fue instalado y se creo una primer ejemplo de almacenamiento), se sugiere 
+que al ingresara la Railway cree la cuenta con las mismas credenciales que el GitHub.
+Para git: https://github.com/
+Para Railway: https://railway.app/
+Ingrese a GitHub: ya se tiene credenciales para esto.
+
+Ingrese Railway.app
+
+Pulsar Pricing:
+
+
+
+Aquí nos dice que el Trial nos dice lo que el tril nos brinda usaremos este trial. Gratuito
+
+Primero Subir al GitHub: ya tiene levantado el Git, ahora ir a la aplicación de node y actualizar el 
+archivo .gitignor
+
+Salve los cambios. Serán ignorados al subir al Git. 
+Desde el terminal corre: git init
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> git init
+Reinitialized existing Git repository in D:/udemy/Node de 0 a esperto/Node/06-webserver/.git/
+Luego git add .
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver>git add .
+Luego git commit -m ¨Webserver List¨
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> git commit -m "Webserver"
+[master 8d5cb1c] ¨Webserver¨
+ 3 files changed, 7 insertions(+), 5 deletions(-)
+
+Ya temenos nuestro reposotorio pero es local, debemos subirlo al GitHub. Ir al GitHub y crear u 
+nuevo repositorio. (debe tener una cuenta en GitHub)
+
+
+
+Pulsar en la parte baja: Create Repository
+
+Pulse el botón para copiar (marcado con circulo) copiara los tres comando:
+El primero indica el nombre remoto del reposotorio
+El segundo renombre la rama a Main
+El tercero indica la rama por defecto para hacer push
+Ir a la aplicación node,  pegarlo en la terminal de visualstudio code pulse enter:
+
+
+
+Si hace esto por primera vez le pedirá que habrá GitHub y se autentique. Ir a GitHub recargalo y 
+verán su reposotorio
+
+Esta es la forma mas básica de subir la aplicación a Git, ahora debemos publicar esta verson en la 
+nube, ir a Railway (como no se tiene aun una cuenta crear la cuenta)
+
+Pulsar login:
+
+
+
+Pide crear cuenta por correo o GitHub se recomienda por GitHub
+
+Pulse : Plase agree… y acepte los términos. 
+Si en el Unvertied sale $2 y pulsa New Proyect le pedirá que valide su cuenta. Debe ingresar una 
+tarjeta de Crediti Valida para que establesca la cuota mínima de $5 dolares
+
+
+
+Luego Pulse New Proyect
+
+ Escoger Deploy from GitHub repo y aparece los proyectos que tiene en el GitHub
+
+Escojo node-webserver-eailway,  y luego la opción Deploy Now Railyway despliega la aplicación 
+(demora algunos segundos dependiendo del tamaño del proyecto)
+
+Si pulsa Variables: vera el puerto donde siguere será desplegado el proyecto en este caso 8081, para
+ver opciones del despliegue pulsar clik y luego  clik-derecho sobre:
+
+
+
+Aparecen una serie de opciones: Update Info: sirve para cambiar de nombre e icono. Last deploy: el 
+ultimo despliegue en la pestana Deploy log se ve el puerto donde se desplego (en este caso 6925) 
+Buld log:  muestra el log del despliegue.
+Para ver donde esta el link del despliegue: pulse sobre: node-webserver-railway (el gato de la 
+izquierda)
+
+Pulse Settings: y busque domains.
+
+
+
+Pulse Generate Domain: espere
+
+Este es el dominio generado pulse sobre el dominio espere y se ejecutara desde la nube.
+node-webserver-railway-production-2c1c.up.railway.app
+
+Esta URL es muy tediosa no se le puede dar a un cliente, lo optimo es tener URL mas corto. 
+11. Desplegando Aplicaciones de Angular y React
+
+Que pasa con las aplicaciones que generan el FronEnd, que se conectan con API al BackEnd, 
+haremos un ejemplo con dos aplicaciones de frontend, uno en Angular y otro en React, estos dos 
+aplicaciones ya están preparadas pare ser publicadas por tanto si las abre con Visualstudio code no 
+las podrá correr.
+
+Estas se encuentran el archivo d:/Node/Angular-React-Prod-Builds.zip. desempaquételo y abra uno 
+de ellos con el Visual Studio Code.
+
+
+
+Para desplegar una aplicación de Angular o React u otros, existe un http://server un servidor simple 
+para desplegar aplicaciones solo de pruebas no es apto para producción.
+Dede el terminal se debe correr el comando: npm install --global http-server
+
+ Si esta en Windows debe correse con admin.
+
+Desde el terminal correr el comando:
+PS D:\udemy\Node de 0 a esperto\Nueva carpeta (2)\react> http-server -o
+Cuando corra de manera automática se ejecutara la aplicación:
+
+
+
+La aplicación corre usando protocolo http, de manera local. Cerrar todo.
+
+12. Desplegar Nuevos cambios en Railway
+
+Como hacer cuando actualizo mi aplicación que ya esta publicado en Railway. Esto es sencillo si 
+realiza cambios en el proyecto deberá subir esos cambios al GitHub, una vez subido levantara 
+nuevamente el RailWay y este detecta los cambios y publica la aplicación.
+Habra la aplicación 06-webserver y ralice cambios cree en el archivo navbar.hbs una nueva opción 
+de menú  Salidas Diarias
+<nav id="menu">
+    <ul class="links">
+        <li><a href="/">Home</a></li>
+        <li><a href="generic">Generic</a></li>
+        <li><a href="elements">Elements</a></li>
+        <li><a href="salidas">Salidas Diarias</a></li>
+    </ul>
+</nav>
+
+En la carpeta views cree un archivo salidas.hbs, allí copie el contenido del archivo generic.hbs y 
+realice cambios en los textos.
+En el archivo app.js cree la salida para la nueva opción:
+ app.get('/salidas', (req, res) => {
+    res.render('salidas', {
+      nombre: 'Armando David Espinoza',
+      titulo: 'Curso de Node'
+    })
+
+
+
+  });
+
+Salve todo y corra el comando: nodemon app, desde el navegador corra localhost.
+
+Pulse salidas diarias:
+
+Suba los cambios a GitHub y luego publique la nueva versión en Railway.
+Como ya publicamos una primera versión, Railway esta escuchando los cambios.
+Para eto debemos hacer un nuevo push a nuestro repositorio de github: en la terminal correr:
+
+Para subir los cambios:
+
+Ir a nuestro GitHub: recargamos y nos indica que hace tres minutos actualizo el código
+
+
+
+Ahora ir a Railway: se autentica por GitHub pulsa New proyect,va ha settings al dominio y corre el url
+
+La nueva versión de nuestro aplicación
+
+13. Consideraciones con Railway
+
+
+
+Recuerde que se esta usando un trial gratuito, pero tiene en linite de 5 dolares o 500 horas que se 
+pueden consumir y cuando eso pase Railway factura contra la tarjeta, esto puede causar problemas 
+pues las facturas podrían ser de 200 , 500 o mas dólares.
+Como evitar esto eliminar la aplicación esto se hace desde el Railway --- Settings en la parte inferior:
+
+Pulsar Delete Service All Enviroments
+
+Pone el nombre del proyecto a liminar pulsa Delete.
+
+Pulsa Settins:
+
+
+
+Pulsa Danger.
+
+Ponga el valor que indica Type: y pulse delete.
+
+
+
+Llegue ha esta pantalla lo que indica que no tiene proyectos publicados y por tanto no consumirá 
+sus créditos libres.
+
+14. Subiendo nuestra aplicación a Heroku
+https://www.heroku.com
+
+Pulse Sign Up si no tiene cuenta: si tiene Log in
+
+
+
+Pulse créate an account
+ Debe revisar su correo y pulsar el link: crear su contraseña 
+
+En Heroku tiene hasta para 5 aplicaciones en caso que no las use por 30 minutos se pondrán de 
+color opaco hasta que reciba una solicitud. Pulse New --- Create new app.
+
+
+
+ A partir del 28 de noviembre del 2022 Heroku ya no es gratuito. Pide una tarjeta de crédito.
+Ponga el nombre de App: curso-node-nombreautor
+Región: l Usa
+Pulse addpayment Method: introdusca una tarejeta de credito, al final de la practica deberá 
+eliminarla.
+Puse Create app.
+
+Se puede trabajar con GitHub, pero lo mas fácil es trabajar con Heroku Git Heroku CLI . se debe 
+instalar el Heroku CLI,  para ver si ya tiene instalado el Heroku, desde la terminal, introdusca el 
+comando: heroku –version si les dice que no es conocido entonces debe instalarlo. desde la pagina 
+del heroku donde estamos:
+
+
+
+Instalar Heroku CLI: pulsar Heroku CLI, se baja un poco en la pantalla y se escoje la instalación de 
+acuerdo a su sistema operativo: (window)
+
+Pulsar 64-bit installer, descarga un instalador y proceda a instalar Heroku CLI.
+Desde el cmd:
+
+En la pagina del Heroku, retroceda a la ventana anterior y copie el comando : heroku login. Pegue 
+esto en la ventana de comandos cmd.
+
+
+
+Le dice que presione cualquier tecla la q es para salir. Si pulsa cualquier tecla (menos q) se abre la 
+ventana del navegador: para autenticarse en heroku
+
+Puse log in y ya esta autenticado en heroku:
+
+Desde el cmd, ubíquese en la carpeta de su aplicación cd/ mi proyecto
+
+Introducir el comando: git init
+
+
+
+Luego el copiar el comando: heroku git:remote -a curso-node-espinoza de la pagina Heroku. Y 
+pegarlo en el promt del cmd.
+
+Este comando conecta su repositorio local y Heroku, pero aun no esta subido:
+Los comandos : git add .  y git commit -am "make it better" ya fueron ejecutados, el primero es 
+para agregar todo y el segundo es para hacer el commit.
+Como nos aseguramos de tener por lo menos un commit: comando: git log
+
+Tenemos 3 commits para saber cual es muestra rama (Branch) comando: git branch
+
+Nuestra rama es main por tanto el comando git push heroku master deberá ser git push heroku 
+main, pegamos este ultimo en el promt. Realiza todo el trabajo de subir la aplicación y al final nos 
+indica donde esta publicado:
+
+
+
+Copien esta URL y péguenlo en una pestaña del navegador y debe mostrar nuestra aplicación.
+
+Si se alvidaran de su URL, se retorna a pagina Heroku pestaña Deploy allí hay un botón Open App 
+pulsa y la aplicación se despliega en el navegador.
+Otro repositorio en la nube es: fly.io gratuito
+https://www.youtube.com/watch?v=xLoILOdqW2U tutorial de fly.io investigarlo.
+
+15. Archivado: Subir los cambios a Heroku
+Desplegaremos los cambios hechos a muestra aplicación en Heroku.  En el terminal integrado de VS 
+code, correr el comando: npm start
+
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> npm start
+> 06-webserver@1.0.0 start
+> node app.js
+Example app listenining al http://localhost:8081
+
+
+
+Copie la URL y despliéguelo en el navegador. La aplicación funciona. Ahora realice algunos cambios 
+en la aplicación cambie los mensajes y textos. Se han cambiado títulos y subtitulos.
+Hacer commit de los cambios comandos: git add .  Después git commit -m ¨Webserver¨
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> git add .
+
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> git commit -m "Webserver"
+[main 4ad63dd] ¨Webserver¨
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+
+Los cambios estan en mi repositorio local falta subirlo a Heroku. Para saber los URL asignados: 
+comando: git remote -v
+
+PS D:\udemy\Node de 0 a esperto\Node\06-webserver> git remote -v
+heroku  https://git.heroku.com/curso-node-espinoza.git (fetch)
+heroku  https://git.heroku.com/curso-node-espinoza.git (push)
+origin  https://github.com/aespinozar/node-webserver-railway.git (fetch)
+origin  https://github.com/aespinozar/node-webserver-railway.git (push)
+
+para subir al Heroku: git push heroku main
+
+remote: -----> Compressing...
+remote:        Done: 45.6M
+remote: -----> Launching...
+remote:        Released v4
+remote:        https://curso-node-espinoza.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+To https://git.heroku.com/curso-node-espinoza.git
+   dcd4900..4ad63dd  main -> main
+realiza la subida y da el URL.  Copie la URL y corra en el navegador.
+
+Inspeccione los otros títulos y vera los cambio en la nueva versión
+
+
+
+Una vez concluido debe eliminar del Heroku su tarjeta. Ingresara aSettings en la parte inferior 
+eliminar la App.
+
+16.
